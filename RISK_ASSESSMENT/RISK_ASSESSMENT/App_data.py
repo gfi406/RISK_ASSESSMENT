@@ -1,5 +1,9 @@
+# -*- coding: cp1251 -*- 
 import tkinter as tk
-from turtle import width
+from turtle import window_width
+from itertools import product
+
+
 
 class MatrixApp:
     def __init__(self, master):
@@ -31,7 +35,7 @@ class MatrixApp:
         
         self.reset_button = tk.Button(self.master, text="Reset", command=self.reset_matrix)
         self.reset_button.pack(side=tk.BOTTOM,anchor="nw")
-        self.get_button = tk.Button(self.master, text="Get", command=self.get_matrix_data   )
+        self.get_button = tk.Button(self.master, text="Get", command=self.all_combinations   )
         self.get_button.pack(side=tk.BOTTOM,anchor="nw")
         
     def update_matrix_size(self):
@@ -42,7 +46,7 @@ class MatrixApp:
         if new_rows > 6 or new_cols > 6 or new_rows <3 or new_cols < 3:
             return
         
-        # äîáàâëÿåì èëè óäàëÿåì ñòðîêè
+        # Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ Ð¸Ð»Ð¸ ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÑÑ‚Ñ€Ð¾ÐºÐ¸
         while self.num_rows < new_rows:
             row = [None for j in range(self.num_cols)]
             for j in range(self.num_cols):
@@ -56,7 +60,7 @@ class MatrixApp:
                 entry.destroy()
             self.num_rows -= 1
         
-        # äîáàâëÿåì èëè óäàëÿåì ñòîëáöû
+        # Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ Ð¸Ð»Ð¸ ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÑÑ‚Ð¾Ð»Ð±Ñ†Ñ‹
         while self.num_cols < new_cols:
             for i in range(self.num_rows):
                 entry = tk.Entry(self.matrix_frame, width=5)
@@ -88,17 +92,38 @@ class MatrixApp:
                     except ValueError:
                         pass 
             data.append(row_data)
-        print(data)
+        
         return(data)
+    
+
+    def all_combinations(self):
+        arr = self.get_matrix_data ()
+        rows = len(arr)
+        cols = len(arr[0])
+        print ([list(comb) for comb in product(*arr)])
+        self.multiplicate_matrix()
+        return [list(comb) for comb in product(*arr)]
+
+
+    def multiplicate_matrix(self):
+        arr = self.all_combinations()
+        getter_arr = []
+        for i in range(0,len(arr)) :
+            for j in range(arr[i]) :
+                g+=arr[i[j]]
+            getter_arr.append(g)
+        print(getter_arr)
+
+    
 class App_data:
     
   
-    def _launch_win() :
+    def _launch_win() :                                               
          
         import tkinter as tk
 
         root = tk.Tk()
-
+                                                                                                    
         photo = tk.PhotoImage(file='data/icon.png')
 
         root.config(bg='white')
@@ -108,6 +133,7 @@ class App_data:
         root.title("RISK_ASSESSMENT")
         root.geometry('600x250+200+100')
         app = MatrixApp(root)
+        print ("1")
 
         
         root.mainloop()
