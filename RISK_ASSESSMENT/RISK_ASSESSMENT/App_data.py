@@ -1,5 +1,8 @@
+# -*- coding: cp1251 -*- 
 import tkinter as tk
-from turtle import width
+from turtle import window_width
+from itertools import product
+
 
 class MatrixApp:
     def __init__(self, master):
@@ -31,7 +34,7 @@ class MatrixApp:
         
         self.reset_button = tk.Button(self.master, text="Reset", command=self.reset_matrix)
         self.reset_button.pack(side=tk.BOTTOM,anchor="nw")
-        self.get_button = tk.Button(self.master, text="Get", command=self.get_matrix_data   )
+        self.get_button = tk.Button(self.master, text="Get", command=self.all_combinations   )
         self.get_button.pack(side=tk.BOTTOM,anchor="nw")
         
     def update_matrix_size(self):
@@ -42,7 +45,7 @@ class MatrixApp:
         if new_rows > 6 or new_cols > 6 or new_rows <3 or new_cols < 3:
             return
         
-        # äîáàâëÿåì èëè óäàëÿåì ñòðîêè
+        # Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ Ð¸Ð»Ð¸ ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÑÑ‚Ñ€Ð¾ÐºÐ¸
         while self.num_rows < new_rows:
             row = [None for j in range(self.num_cols)]
             for j in range(self.num_cols):
@@ -56,7 +59,7 @@ class MatrixApp:
                 entry.destroy()
             self.num_rows -= 1
         
-        # äîáàâëÿåì èëè óäàëÿåì ñòîëáöû
+        # Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ Ð¸Ð»Ð¸ ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÑÑ‚Ð¾Ð»Ð±Ñ†Ñ‹
         while self.num_cols < new_cols:
             for i in range(self.num_rows):
                 entry = tk.Entry(self.matrix_frame, width=5)
@@ -88,12 +91,47 @@ class MatrixApp:
                     except ValueError:
                         pass 
             data.append(row_data)
-        print(data)
+        
         return(data)
+    
+
+    def all_combinations(self):
+        arr = self.get_matrix_data ()
+        rows = len(arr)
+        cols = len(arr[0])
+        print ([list(comb) for comb in product(*arr)])
+        return [list(comb) for comb in product(*arr)]
+    def multiplicate_matrix(self):
+        arr = self.all_combinations()
+
+
+    #def combinations(self,arr):
+        
+    #    if len(arr) == 1:
+    #        return [[arr[0]]]
+    #    else:
+    #        res = []
+    #        for i in range(len(arr)):
+    #            remaining = arr[:i] + arr[i+1:]
+    #            sub_combinations = self.combinations(remaining)
+    #            for comb in sub_combinations:
+    #                res.append([arr[i]] + comb)
+    #        return res
+
+    #def all_combinations(self):
+    #    res = []
+    #    arr = self.get_matrix_data ()
+    #    for i in range(len(arr)):
+    #        sub_combinations = self.combinations(arr[i])
+    #        for comb in sub_combinations:
+    #            res.append(comb)  
+    #    print(res)
+    #    return res
+    
 class App_data:
     
   
-    def _launch_win() :
+    def _launch_win() :                                               
          
         import tkinter as tk
 
