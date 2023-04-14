@@ -45,7 +45,7 @@ class MatrixApp:
         if new_rows > 6 or new_cols > 6 or new_rows <3 or new_cols < 3:
             return
         
-        # äîáàâëÿåì èëè óäàëÿåì ñòðîêè
+        # Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ Ð¸Ð»Ð¸ ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÑÑ‚Ñ€Ð¾ÐºÐ¸
         while self.num_rows < new_rows:
             row = [None for j in range(self.num_cols)]
             for j in range(self.num_cols):
@@ -59,7 +59,7 @@ class MatrixApp:
                 entry.destroy()
             self.num_rows -= 1
         
-        # äîáàâëÿåì èëè óäàëÿåì ñòîëáöû
+        # Ð´Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ Ð¸Ð»Ð¸ ÑƒÐ´Ð°Ð»ÑÐµÐ¼ ÑÑ‚Ð¾Ð»Ð±Ñ†Ñ‹
         while self.num_cols < new_cols:
             for i in range(self.num_rows):
                 entry = tk.Entry(self.matrix_frame, width=5)
