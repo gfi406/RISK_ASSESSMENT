@@ -1,7 +1,10 @@
 # -*- coding: cp1251 -*- 
+from operator import length_hint
 import tkinter as tk
 from turtle import window_width
 from itertools import product
+import matplotlib.pyplot as plt  
+
 
 
 
@@ -27,6 +30,10 @@ class MatrixApp:
         self.col_spinbox_label = tk.Label(self.master, text="Cols:")
         self.col_spinbox = tk.Spinbox(self.master, from_=3, to=6, command=self.update_matrix_size)
         
+        
+        self.formula_input = tk.Entry()
+        self.formula_input.pack(anchor="ne")
+
         self.row_spinbox_label.pack(side=tk.BOTTOM,anchor="nw")
         self.row_spinbox.pack(side=tk.BOTTOM,anchor="nw")
         self.col_spinbox_label.pack(side=tk.BOTTOM,anchor="nw")
@@ -35,8 +42,13 @@ class MatrixApp:
         
         self.reset_button = tk.Button(self.master, text="Reset", command=self.reset_matrix)
         self.reset_button.pack(side=tk.BOTTOM,anchor="nw")
+
         self.get_button = tk.Button(self.master, text="Get", command=self.all_combinations   )
+
+        self.get_button = tk.Button(self.master, text="Get", command=self.do_some_magic )
+
         self.get_button.pack(side=tk.BOTTOM,anchor="nw")
+        
         
     def update_matrix_size(self):
         new_rows = int(self.row_spinbox.get())
@@ -100,8 +112,7 @@ class MatrixApp:
         arr = self.get_matrix_data ()
         rows = len(arr)
         cols = len(arr[0])
-        print ([list(comb) for comb in product(*arr)])
-        self.multiplicate_matrix()
+        #print ([list(comb) for comb in product(*arr)])
         return [list(comb) for comb in product(*arr)]
 
 
@@ -115,6 +126,80 @@ class MatrixApp:
         print(getter_arr)
 
     
+
+        return [list(comb) for comb in product(*arr)]
+    def multiplicate_matrix(self):
+        matrix = self.all_combinations()
+        row_products = []
+        for row in matrix:
+            row_product = 1
+            for num in row:
+                row_product *= num
+            row_products.append(row_product)
+       # print("*",row_products)
+        return row_products
+    
+    
+    def plus_matrix(self):
+        matrix = self.all_combinations()
+        row_products = []
+        for row in matrix:
+            row_product = 0
+            for num in row:
+                row_product += num
+            row_products.append(row_product)
+        #print("+",row_products)
+        return row_products
+    def formul_manager(self):
+        
+        arr = self.all_combinations()
+        
+        len_arr = len (arr[0])
+        
+        result =[]
+
+        for i in range(0,len(arr)):
+            formula = self.formula_input.get()
+            formula = formula.replace('p1', str(arr[i][0])) 
+            formula = formula.replace('p2',str(arr[i][1]))
+            formula = formula.replace('p3',str(arr[i][2]))
+            
+            if len_arr >= 4:
+                formula = formula.replace('p4',str(arr[i][3]))
+            if len_arr >= 5:
+                formula = formula.replace('p5',str(arr[i][4]))
+            if len_arr >= 6:
+                formula = formula.replace('p6',str(arr[i][5]))
+
+            result.append(eval(formula))
+       
+        
+
+        
+            
+        print(result)    # выводим список результатов
+    
+    def do_some_magic(self):
+        ##self.multiplicate_matrix()
+        ##self.plus_matrix()
+        #self.all_combinations()
+        #self.give_gistogram()
+        #len_arr = self.all_combinations()
+        #len_arr = len (len_arr[0]   )
+        #print(len_arr)
+        #return len_arr
+        self.formul_manager()
+    def give_gistogram(self):
+        data = self.plus_matrix()
+        plt.hist(data, bins=len(data))
+        plt.show()
+    
+
+        
+        
+
+
+    
 class App_data:
     
   
@@ -124,16 +209,18 @@ class App_data:
 
         root = tk.Tk()
                                                                                                     
-        photo = tk.PhotoImage(file='data/icon.png')
+        #photo = tk.PhotoImage(file='data/icon.png')
+
+        #root.iconphoto(False,photo)
 
         root.config(bg='white')
 
-        root.iconphoto(False,photo)
+        
 
         root.title("RISK_ASSESSMENT")
-        root.geometry('600x250+200+100')
+        root.geometry('600x350+200+100')
         app = MatrixApp(root)
-        print ("1")
+        #print ("1")
 
         
         root.mainloop()
