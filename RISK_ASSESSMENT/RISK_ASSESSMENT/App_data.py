@@ -1,4 +1,5 @@
 # -*- coding: cp1251 -*- 
+ 
 from operator import length_hint
 import tkinter as tk
 from turtle import window_width
@@ -174,34 +175,28 @@ class MatrixApp:
                 formula = formula.replace('p6',str(arr[i][5]))
 
             result.append(eval(formula))
-        print(result)    # выводим список результатов
+        print(result)    
         return(result)
     def give_gistogram(self):
-                   # Значения для осей
         data = self.plus_matrix()
         x = sorted(data)
         arr = self.all_combinations()
         len_arr = len(arr[0])
-
-        # Значения для делений по оси x
         min_x = min(x)
         max_x = max(x)
         h = (max_x - min_x)/(1+3.3*math.log1p(len_arr))
         ticks = []
         i = 0
+
         while (i+h) < max_x:
             ticks.append(float("{:.2f}".format((i+h))))
             i += h
 
-        # Создаём гистограмму
         plt.hist(x)
         plt.xticks(ticks, ticks)
-        plt.locator_params(axis='y', integer=True)
-
-        # Добавление заголовка
-        plt.title("Значения рисков")
-
-        # Отображение графика
+        plt.locator_params(axis='y', integer=True) 
+        
+        plt.title("Значения рисков")        
         plt.show()
         
     def do_some_magic(self):
@@ -231,7 +226,7 @@ class MatrixApp:
                 final_mod = 0
             elif (more_med == 0) or (less_med == 0):
                 final_med = 0
-            else:
+            else:                                                                                          
                 final_med = less_med / more_med
                 final_mod = less_mod / more_mod
         print("Риск через моду:", final_med)
