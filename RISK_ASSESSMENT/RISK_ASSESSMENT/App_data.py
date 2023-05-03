@@ -201,10 +201,11 @@ class MatrixApp:
         
     def do_some_magic(self):
         
-        #self.formul_manager()
-        self.mediana()             
-        self.give_gistogram()
         
+        self.mediana() 
+                    
+        self.give_gistogram()
+        self.formul_manager()
     def mediana(self):
         data = 0
         arr = self.all_combinations()
@@ -231,13 +232,6 @@ class MatrixApp:
                 final_mod = less_mod / more_mod
         print("Mode risk:", final_med)
         print("Median risk:", final_mod, end=' ')
-   
-    
-
-        
-        
-
-
     
 class App_data:
     
@@ -248,9 +242,9 @@ class App_data:
 
         root = tk.Tk()
                                                                                                     
-        photo = tk.PhotoImage(file='data/icon2.png')
+       # photo = tk.PhotoImage(file='data/icon.png')
 
-        root.iconphoto(False,photo)
+        #root.iconphoto(False,photo)
 
         root.config(bg='white')
 
