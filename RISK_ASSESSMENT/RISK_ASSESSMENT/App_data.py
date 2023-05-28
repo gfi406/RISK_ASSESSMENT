@@ -208,11 +208,7 @@ class MatrixApp:
         self.mediana() 
                     
         self.give_gistogram()
-        #self.text1 = tk.Text(self.master,height = 5, width =10 )
-        #self.text1.insert(tk.END,self.mediana())
-        #self.text1.pack(side=tk.BOTTOM,anchor="ne")
-
-        #self.formul_manager()
+        
 
 
     def mediana(self):
