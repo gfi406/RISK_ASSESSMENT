@@ -1,9 +1,15 @@
 # -*- coding: cp1251 -*- 
+ 
 from operator import length_hint
+from telnetlib import SE
 import tkinter as tk
 from turtle import window_width
 from itertools import product
-import matplotlib.pyplot as plt  
+import matplotlib.pyplot as plt
+import matplotlib.pyplot
+import math 
+import statistics
+
 
 
 
@@ -58,7 +64,7 @@ class MatrixApp:
         if new_rows > 6 or new_cols > 6 or new_rows <3 or new_cols < 3:
             return
         
-        # строки
+        
         while self.num_rows < new_rows:
             row = [None for j in range(self.num_cols)]
             for j in range(self.num_cols):
@@ -72,7 +78,7 @@ class MatrixApp:
                 entry.destroy()
             self.num_rows -= 1
         
-        # столбцы
+        
         while self.num_cols < new_cols:
             for i in range(self.num_rows):
                 entry = tk.Entry(self.matrix_frame, width=5)
@@ -159,7 +165,6 @@ class MatrixApp:
         result =[]
 
         for i in range(0,len(arr)):
-            
             formula = self.formula_input.get()
             formula = formula.replace('p1', str(arr[i][0])) 
             formula = formula.replace('p2',str(arr[i][1]))
@@ -171,35 +176,73 @@ class MatrixApp:
                 formula = formula.replace('p5',str(arr[i][4]))
             if len_arr >= 6:
                 formula = formula.replace('p6',str(arr[i][5]))
-            # да я знаю что это костль 
-            result.append(eval(formula))
-       
-        
 
-        
-            
+            result.append(int(eval(formula)))
         print(result)    
-    
-    def do_some_magic(self):
-        self.multiplicate_matrix()
-        self.plus_matrix()
-        self.all_combinations()
-        self.give_gistogram()
-        len_arr = self.all_combinations()
-        len_arr = len (len_arr[0]   )
-        print(len_arr)
-        return len_arr
-        #self.formul_manager()
+        return(result)
     def give_gistogram(self):
         data = self.plus_matrix()
-        plt.hist(data, bins=len(data))
+        x = sorted(data)
+        arr = self.all_combinations()
+        len_arr = len(arr[0])
+        min_x = min(x)
+        max_x = max(x)
+        h = (max_x - min_x)/(1+3.3*math.log1p(len_arr))
+        ticks = []
+        i = 0
+
+        while (i+h) < max_x:
+            ticks.append(float("{:.2f}".format((i+h))))
+            i += h
+
+        plt.hist(x)
+        plt.xticks(ticks, ticks)
+        plt.locator_params(axis='y', integer=True) 
+        
+        plt.title("Risk values")        
         plt.show()
-    
-
+        
+    def do_some_magic(self):
         
         
+        self.mediana() 
+                    
+        self.give_gistogram()
+        #self.text1 = tk.Text(self.master,height = 5, width =10 )
+        #self.text1.insert(tk.END,self.mediana())
+        #self.text1.pack(side=tk.BOTTOM,anchor="ne")
+
+        #self.formul_manager()
 
 
+    def mediana(self):
+        
+        arr = self.formul_manager()
+        #flat_arr = [i for sublist in arr for i in sublist]
+        data =  arr
+        mode = statistics.mode(data)
+        median = statistics.median(data)
+        more_med = less_med = more_mod = less_mod = final_med = final_mod = 0
+        for elem in data:
+            if elem > median:
+                more_med += 1
+            elif elem < median:
+                less_med += 1
+            if elem > mode:
+                more_mod += 1
+            elif elem < mode:
+                less_mod += 1
+            if (more_mod == 0) or (less_mod == 0):
+                final_mod = 0
+            elif (more_med == 0) or (less_med == 0):
+                final_med = 0
+            
+            else:                                                                                          
+                final_med = less_med / more_med
+                final_mod = less_mod / more_mod
+       
+        print("Mode risk:", final_med)
+        print("Median risk:", final_mod, end=' ')
     
 class App_data:
     
@@ -210,7 +253,7 @@ class App_data:
 
         root = tk.Tk()
                                                                                                     
-        #photo = tk.PhotoImage(file='data/icon.png')
+       # photo = tk.PhotoImage(file='data/icon.png')
 
         #root.iconphoto(False,photo)
 
@@ -226,5 +269,5 @@ class App_data:
         
         root.mainloop()
     
-
+App_data._launch_win()
 
